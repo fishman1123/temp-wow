@@ -49,7 +49,7 @@ export default function HomePage() {
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight font-serif text-slate-800">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-500">AC'SCENT WOW</span>
               </h1>
-              <p className="text-lg sm:text-xl text-slate-600 max-w-xl mx-auto mt-6 mb-10 leading-relaxed">
+              <p className="text-lg sm:text-xl text-slate-600 max-w-xl mx-auto mt-7 mb-10 leading-relaxed">
                 AI가 분석한 이미지 타입과 어울리는 향수를 찾아드립니다
               </p>
 
