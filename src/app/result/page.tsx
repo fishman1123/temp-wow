@@ -45,22 +45,26 @@ export default function ResultPage() {
   useEffect(() => {
     setIsLoading(true);
     
-    try {
-      const analysisResult = getAnalysisResult();
-      
-      if (!analysisResult) {
-        setError('분석 결과를 찾을 수 없습니다. 이미지를 다시 업로드해주세요.');
+    const loadResult = async () => {
+      try {
+        const analysisResult = await getAnalysisResult();
+        
+        if (!analysisResult) {
+          setError('분석 결과를 찾을 수 없습니다. 이미지를 다시 업로드해주세요.');
+          setIsLoading(false);
+          return;
+        }
+        
+        setResult(analysisResult);
         setIsLoading(false);
-        return;
+      } catch (error) {
+        console.error('결과 로딩 중 오류 발생:', error);
+        setError('분석 결과를 불러오는 중 오류가 발생했습니다.');
+        setIsLoading(false);
       }
-      
-      setResult(analysisResult);
-      setIsLoading(false);
-    } catch (error) {
-      console.error('결과 로딩 중 오류 발생:', error);
-      setError('분석 결과를 불러오는 중 오류가 발생했습니다.');
-      setIsLoading(false);
-    }
+    };
+    
+    loadResult();
   }, []);
 
   // 로딩 상태 표시
