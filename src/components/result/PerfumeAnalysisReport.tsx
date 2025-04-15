@@ -466,41 +466,6 @@ const PerfumeAnalysisReport = ({ locale = 'ko' }: PerfumeAnalysisReportProps) =>
             )}
           </div>
         ))}
-        
-        {/* 레이더 차트 */}
-        <div style={{ height: '270px', marginTop: '20px' }}>
-          <h4 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#666' }}>🎯 {t('common:result.similarity_comparison')}</h4>
-          <ResponsiveContainer width="100%" height="100%">
-            <RadarChart outerRadius="65%" data={prepareRadarData(analysisReport.analysisResult.scaleScores)}>
-              <PolarGrid stroke="#e0e0e0" />
-              <PolarAngleAxis dataKey="subject" tick={{ fill: '#666', fontSize: 9 }} /> {/* 폰트 크기 조정 */}
-              <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 10 }} />
-              <Radar
-                name={t('common:result.image_analysis_value')}
-                dataKey="score"
-                stroke="#8a63d2"
-                fill="#8a63d2"
-                fillOpacity={0.5}
-                strokeWidth={2}
-              />
-              <Radar
-                name={`${recommendation.name} ${t('common:result.fragrance_characteristics')}`}
-                dataKey="score"
-                stroke="#4caf50"
-                fill="#4caf50"
-                fillOpacity={0.4}
-                strokeWidth={2}
-              />
-              <Legend 
-                align="center" 
-                verticalAlign="bottom" 
-                height={36} 
-                iconSize={10}
-                wrapperStyle={{ fontSize: '11px' }} // 폰트 크기 조정
-              />
-            </RadarChart>
-          </ResponsiveContainer>
-        </div>
       </div>
       
       {/* 향수 타입 설명 */}

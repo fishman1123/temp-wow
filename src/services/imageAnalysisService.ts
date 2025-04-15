@@ -19,6 +19,13 @@ export interface ScaleScores {
   공부벌레_체육특기생: number;
   차도남_훈훈남: number;
   빛의수호자_다크나이트: number;
+  // 긴 형식의 스케일 이름 추가
+  "뽀잉뽀잉 귀여워 죽겠어_심장 바사삭 섹시함의 폭격기"?: number;
+  "편의점 라면 쏘는 찐친_ 생일에 백화점 층 대관한 재벌 3세"?: number;
+  "너드미 뿜뿜 전교 1등_체육대회 심장 떨어지는 운동천재"?: number;
+  "표정 없는 차가운 미스터리_국민 옆집 친구 포근함"?: number;
+  "햇살 비타민 청량 요정_심장 융해되는 카리스마 폭격기"?: number;
+  [key: string]: number | undefined;
 }
 
 // 영어 버전 ScaleScores
@@ -28,6 +35,7 @@ export interface EnScaleScores {
   bookworm_athlete: number;
   cold_warm: number;
   day_night: number;
+  [key: string]: number | undefined;
 }
 
 // 일본어 버전 ScaleScores
@@ -37,6 +45,7 @@ export interface JaScaleScores {
   勉強家_体育特技生: number;
   クールガイ_温かい男: number;
   昼の男_夜の男: number;
+  [key: string]: number | undefined;
 }
 
 // 중국어 버전 ScaleScores
@@ -46,6 +55,7 @@ export interface ZhScaleScores {
   学霸_体育特长生: number;
   冷都男_暖男: number;
   白天的他_夜晚的他: number;
+  [key: string]: number | undefined;
 }
 
 // 향수 유형의 유사도 결과 인터페이스
@@ -123,32 +133,91 @@ const scaleKeyMap: Record<KoScaleKey, string> = {
 
 // 척도 매핑 함수 (언어별)
 const mapScaleScores = (scaleScores: any, locale: string): ScaleScores => {
-  if (locale === 'ko') {
-    return scaleScores as ScaleScores;
-  } else if (locale === 'en' && 'cute_sexy' in scaleScores) {
+  // 긴 스케일 이름이 있는지 확인
+  const hasLongNames = 
+    '뽀잉뽀잉 귀여워 죽겠어_심장 바사삭 섹시함의 폭격기' in scaleScores ||
+    '편의점 라면 쏘는 찐친_ 생일에 백화점 층 대관한 재벌 3세' in scaleScores ||
+    '너드미 뿜뿜 전교 1등_체육대회 심장 떨어지는 운동천재' in scaleScores ||
+    '표정 없는 차가운 미스터리_국민 옆집 친구 포근함' in scaleScores ||
+    '햇살 비타민 청량 요정_심장 융해되는 카리스마 폭격기' in scaleScores;
+  
+  // 긴 이름 형식이 있으면 그대로 반환
+  if (hasLongNames) {
     return {
+      큐티_섹시: scaleScores['뽀잉뽀잉 귀여워 죽겠어_심장 바사삭 섹시함의 폭격기'] || 0,
+      소꿉친구_재벌3세: scaleScores['편의점 라면 쏘는 찐친_ 생일에 백화점 층 대관한 재벌 3세'] || 0,
+      공부벌레_체육특기생: scaleScores['너드미 뿜뿜 전교 1등_체육대회 심장 떨어지는 운동천재'] || 0,
+      차도남_훈훈남: scaleScores['표정 없는 차가운 미스터리_국민 옆집 친구 포근함'] || 0,
+      빛의수호자_다크나이트: scaleScores['햇살 비타민 청량 요정_심장 융해되는 카리스마 폭격기'] || 0,
+      // 긴 이름 형식도 유지
+      '뽀잉뽀잉 귀여워 죽겠어_심장 바사삭 섹시함의 폭격기': scaleScores['뽀잉뽀잉 귀여워 죽겠어_심장 바사삭 섹시함의 폭격기'] || 0,
+      '편의점 라면 쏘는 찐친_ 생일에 백화점 층 대관한 재벌 3세': scaleScores['편의점 라면 쏘는 찐친_ 생일에 백화점 층 대관한 재벌 3세'] || 0,
+      '너드미 뿜뿜 전교 1등_체육대회 심장 떨어지는 운동천재': scaleScores['너드미 뿜뿜 전교 1등_체육대회 심장 떨어지는 운동천재'] || 0,
+      '표정 없는 차가운 미스터리_국민 옆집 친구 포근함': scaleScores['표정 없는 차가운 미스터리_국민 옆집 친구 포근함'] || 0,
+      '햇살 비타민 청량 요정_심장 융해되는 카리스마 폭격기': scaleScores['햇살 비타민 청량 요정_심장 융해되는 카리스마 폭격기'] || 0
+    };
+  }
+
+  if (locale === 'ko') {
+    const result = scaleScores as ScaleScores;
+    // 짧은 이름 형식에서 긴 이름 형식으로 변환
+    result['뽀잉뽀잉 귀여워 죽겠어_심장 바사삭 섹시함의 폭격기'] = scaleScores.큐티_섹시 || 0;
+    result['편의점 라면 쏘는 찐친_ 생일에 백화점 층 대관한 재벌 3세'] = scaleScores.소꿉친구_재벌3세 || 0;
+    result['너드미 뿜뿜 전교 1등_체육대회 심장 떨어지는 운동천재'] = scaleScores.공부벌레_체육특기생 || 0;
+    result['표정 없는 차가운 미스터리_국민 옆집 친구 포근함'] = scaleScores.차도남_훈훈남 || 0;
+    result['햇살 비타민 청량 요정_심장 융해되는 카리스마 폭격기'] = scaleScores.빛의수호자_다크나이트 || 0;
+    return result;
+  } else if (locale === 'en' && 'cute_sexy' in scaleScores) {
+    const result = {
       큐티_섹시: scaleScores.cute_sexy,
       소꿉친구_재벌3세: scaleScores.childhood_friend_chaebol,
       공부벌레_체육특기생: scaleScores.bookworm_athlete,
       차도남_훈훈남: scaleScores.cold_warm,
       빛의수호자_다크나이트: scaleScores.day_night
-    };
+    } as ScaleScores;
+    
+    // 긴 이름 형식도 추가
+    result['뽀잉뽀잉 귀여워 죽겠어_심장 바사삭 섹시함의 폭격기'] = scaleScores.cute_sexy;
+    result['편의점 라면 쏘는 찐친_ 생일에 백화점 층 대관한 재벌 3세'] = scaleScores.childhood_friend_chaebol;
+    result['너드미 뿜뿜 전교 1등_체육대회 심장 떨어지는 운동천재'] = scaleScores.bookworm_athlete;
+    result['표정 없는 차가운 미스터리_국민 옆집 친구 포근함'] = scaleScores.cold_warm;
+    result['햇살 비타민 청량 요정_심장 융해되는 카리스마 폭격기'] = scaleScores.day_night;
+    
+    return result;
   } else if (locale === 'ja' && 'キュート_セクシー' in scaleScores) {
-    return {
+    const result = {
       큐티_섹시: scaleScores['キュート_セクシー'],
       소꿉친구_재벌3세: scaleScores['幼なじみ_財閥3世'],
       공부벌레_체육특기생: scaleScores['勉強家_体育特技生'],
       차도남_훈훈남: scaleScores['クールガイ_温かい男'],
       빛의수호자_다크나이트: scaleScores['昼の男_夜の男']
-    };
+    } as ScaleScores;
+    
+    // 긴 이름 형식도 추가
+    result['뽀잉뽀잉 귀여워 죽겠어_심장 바사삭 섹시함의 폭격기'] = scaleScores['キュート_セクシー'];
+    result['편의점 라면 쏘는 찐친_ 생일에 백화점 층 대관한 재벌 3세'] = scaleScores['幼なじみ_財閥3世'];
+    result['너드미 뿜뿜 전교 1등_체육대회 심장 떨어지는 운동천재'] = scaleScores['勉強家_体育特技生'];
+    result['표정 없는 차가운 미스터리_국민 옆집 친구 포근함'] = scaleScores['クールガイ_温かい男'];
+    result['햇살 비타민 청량 요정_심장 융해되는 카리스마 폭격기'] = scaleScores['昼の男_夜の男'];
+    
+    return result;
   } else if (locale === 'zh' && '可爱_性感' in scaleScores) {
-    return {
+    const result = {
       큐티_섹시: scaleScores['可爱_性感'],
       소꿉친구_재벌3세: scaleScores['青梅竹马_财阀三世'],
       공부벌레_체육특기생: scaleScores['学霸_体育特长生'],
       차도남_훈훈남: scaleScores['冷都男_暖男'],
       빛의수호자_다크나이트: scaleScores['白天的他_夜晚的他']
-    };
+    } as ScaleScores;
+    
+    // 긴 이름 형식도 추가
+    result['뽀잉뽀잉 귀여워 죽겠어_심장 바사삭 섹시함의 폭격기'] = scaleScores['可爱_性感'];
+    result['편의점 라면 쏘는 찐친_ 생일에 백화점 층 대관한 재벌 3세'] = scaleScores['青梅竹马_财阀三世'];
+    result['너드미 뿜뿜 전교 1등_체육대회 심장 떨어지는 운동천재'] = scaleScores['学霸_体育特长生'];
+    result['표정 없는 차가운 미스터리_국민 옆집 친구 포근함'] = scaleScores['冷都男_暖男'];
+    result['햇살 비타민 청량 요정_심장 융해되는 카리스마 폭격기'] = scaleScores['白天的他_夜晚的他'];
+    
+    return result;
   }
   // 기본값 반환
   return scaleScores as ScaleScores;
