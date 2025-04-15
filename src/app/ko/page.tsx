@@ -50,7 +50,7 @@ export default function HomePage() {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-500">AC'SCENT WOW</span>
               </h1>
               <p className="text-lg sm:text-xl text-slate-600 max-w-xl mx-auto mt-7 mb-10 leading-relaxed">
-                AI가 분석한 이미지 타입과 어울리는 향수를 찾아드립니다!!!
+                AI가 분석한 이미지 타입과 어울리는 향수를 찾아드립니다
               </p>
 
               <Link href="/ko/participate" className="inline-flex items-center justify-center gap-2.5 px-8 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300">
